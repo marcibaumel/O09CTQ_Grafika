@@ -1,0 +1,31 @@
+Milyen fő lépéseken keresztül lesz a forrásfájlokból futtatható állomány?
+
+CMD-> Hely megadás ahol a "Makefile" állomány helyezkedik el és make parancs.
+
+Mire szolgálnak a statikus függvénykönyvtárak (static library)?
+
+A statikus csatolású függvénykönyvtár használata esetén a fordító beleszerkeszti a
+végrehajtható állományba azon függvények kódját, amelyeket ténylegesen meghív a program.
+
+Miért és hogyan használjuk a make programot?
+
+a GCC-nek adjuk ki a parancsot, hogy "hogyan" build-elődjőn le.
+Pl:  
+    forrás állomány - linker flag - futatható .exe neve
+gcc main.c brick.c -lm -o brick.exe
+
+
+Mi a különbség a statikus és a dinamikus linkelés között?
+
+A statikus csatolású függvénykönyvtár használata esetén a fordító beleszerkeszti a
+végrehajtható állományba azon függvények kódját, amelyeket ténylegesen meghív a program,
+addig a dinamikus csatolású könyvtárak esetén a végrehajtható állomány csak az osztott
+függvénykönyvtárra való hivatkozást fog tartalmazni. 
+
+Mit csinál a grafika_sdk-ban a shell.bat?
+
+Megadja a MinGW-et a PATH-be és megadja a mappa helyét.
+
+Célszerűen mi kerül a forrás és a fejléc (header) állományokba?
+
+A felhasznált komponensek. 
