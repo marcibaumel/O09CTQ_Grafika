@@ -46,5 +46,14 @@ int main(int argc, char* argv[])
 	printf ("Are you done ? (Press a button)" );
 	scanf ("%f" , &g);
 	
+	//shift
+	calc_translate_matrix(m, dx, dy);
+	
+	//elforgatás
+	calc_rotation_matrix(m, alpha);
+	
+	// m = kimeneti mátrix
+	calc_scale_matrix(m, sx, sy);
+	
 	return 0;
 }
