@@ -1,30 +1,32 @@
 #ifndef BALL_H
 #define BALL_H
 
-/**-
-*Megadjuk a labda helyzetét és a sebeségét egy struktórán keresztül 
-*/
-
-typdef struct Ball
+/**
+ * Ball position and speed
+ */
+typedef struct Ball
 {
-	//Labda helye az X tengelyen
-	float x;
-	
-	//Labda helye az Y tengelyen
+    float x;
     float y;
-	
-	//Labda mérete
     float radius;
-	
-	//X és Y tengelyen lévő sebesség
     float speed_x;
     float speed_y;
-}Ball;
+} Ball;
 
+/**
+ * Move the ball to the given position.
+ */
 void move_ball(Ball* ball, float x, float y);
 
+/**
+ * Start the ball from the given position.
+ */
 void start_ball(Ball* ball, float x, float y);
 
+/**
+ * Update the ball.
+ * @param time elapsed time in seconds.
+ */
 void update_ball(Ball* ball, double time);
 
-#endif /*BALL_H*/
+#endif /* BALL_H */
