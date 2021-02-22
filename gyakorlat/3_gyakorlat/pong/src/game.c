@@ -51,10 +51,11 @@ void update_game(Game* game, double time)
         game->ball.speed_y *= -1;
     }
 	
-	if(game->ball.x + game->ball.radius < game->right_pad.size)
+	if(game->ball.x - game->ball.radius < -game->right_pad.size && game->ball.x - game->ball.radius < -game->right_pad.size)
 	{
-		
+		if(game->ball.y < game->right_pad.position){
 		game->ball.speed_y *= -1;
+		}
 	}
 	
 }
