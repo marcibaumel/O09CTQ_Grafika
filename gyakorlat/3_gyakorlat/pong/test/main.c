@@ -376,6 +376,8 @@ void keyboard (unsigned char key, int x, int y) {
                 player2_paddile_y -= paddile_velocity;
             glutPostRedisplay();
             break;
+			
+		
         // exit on esc
         case 27:
             exit(0);
