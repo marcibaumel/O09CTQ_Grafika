@@ -22,13 +22,15 @@ void reshape(GLsizei width, GLsizei height)
     double ratio;
 
     ratio = (double)width / height;
-    if (ratio > VIEWPORT_RATIO) {
+    if (ratio > VIEWPORT_RATIO)
+    {
         w = (int)((double)height * VIEWPORT_RATIO);
         h = height;
         x = (width - w) / 2;
         y = 0;
     }
-    else {
+    else
+    {
         w = width;
         h = (int)((double)width / VIEWPORT_RATIO);
         x = 0;
@@ -43,26 +45,34 @@ void reshape(GLsizei width, GLsizei height)
 
 void motion(int x, int y)
 {
-    // rotate_camera(&camera, x, y);
+    rotate_camera(&camera, x, y);
     glutPostRedisplay();
 }
 
 void keyboard(unsigned char key, int x, int y)
 {
     float position;
+    const float speed = 5.0;
 
-    switch (key) {
+    switch (key)
+    {
     case 'w':
-        set_camera_speed(&camera, 0.1);
+        set_camera_speed(&camera, speed);
         break;
     case 's':
-        set_camera_speed(&camera, -0.1);
+        set_camera_speed(&camera, -speed);
         break;
     case 'a':
-        set_camera_side_speed(&camera, 0.1);
+        set_camera_side_speed(&camera, speed);
         break;
     case 'd':
-        set_camera_side_speed(&camera, -0.1);
+        set_camera_side_speed(&camera, -speed);
+        break;
+    case 'q':
+        set_camera_vertical_speed(&camera, speed);
+        break;
+    case 'e':
+        set_camera_vertical_speed(&camera, -speed);
         break;
     }
 
@@ -73,7 +83,8 @@ void keyboard_up(unsigned char key, int x, int y)
 {
     float position;
 
-    switch (key) {
+    switch (key)
+    {
     case 'w':
     case 's':
         set_camera_speed(&camera, 0.0);
@@ -81,6 +92,11 @@ void keyboard_up(unsigned char key, int x, int y)
     case 'a':
     case 'd':
         set_camera_side_speed(&camera, 0.0);
+        break;
+
+    case 'e':
+    case 'q':
+        set_camera_vertical_speed(&camera, 0.0);
         break;
     }
 
@@ -92,13 +108,12 @@ void idle()
     static int last_frame_time = 0;
     int current_time;
     double elapsed_time;
-   
+
     current_time = glutGet(GLUT_ELAPSED_TIME);
     elapsed_time = (double)(current_time - last_frame_time) / 1000;
     last_frame_time = current_time;
 
     update_camera(&camera, elapsed_time);
-
+    update_scene(&scene, elapsed_time);
     glutPostRedisplay();
 }
-
