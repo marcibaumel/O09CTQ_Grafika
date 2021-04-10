@@ -3,7 +3,7 @@
 #include <math.h>
 
 #define M_PI 3.14159265358979323846
-#define size 500
+#define size 5000
 
 double degree_to_radian(double degree)
 {

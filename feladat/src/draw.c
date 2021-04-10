@@ -6,7 +6,7 @@
 #include "model.h"
 #include "callbacks.h"
 
-double sizeOfRoom = 500;
+double sizeOfRoom = 5000;
 
 GLfloat material_ambient_default[] = {0.9, 0.9, 0.9, 0.5};
 
@@ -18,12 +18,12 @@ void draw_content(World *world)
 	glPushMatrix();
 
 	glTranslatef(world->Tree.position.x, world->Tree.position.y, world->Tree.position.z);
-	glRotatef(180.0, 1, 1, 1);
+	//glRotatef(180.0, 0, 1, 1);
 	glMaterialfv(GL_FRONT, GL_AMBIENT, world->Tree.material_ambient);
 
 	glBindTexture(GL_TEXTURE_2D, world->Tree.texture);
 
-	glScalef(10.0f, 10.0f, 10.0f);
+	glScalef(50.0f, 50.0f, 50.0f);
 
 	draw_model(&world->Tree.model);
 	glPopMatrix();
