@@ -600,13 +600,13 @@ void init_entities(World *world)
     load_model("models//skull2.obj", &world->Tree.model);
     world->Tree.texture = load_texture("textures//Skull.jpg");
     init_object(&world->Tree, 400, 170, 200);
-    /*
-    world->room.back = load_texture("textures//wall.jpg");
-    world->room.front = load_texture("textures//wall.jpg");
-    world->room.left = load_texture("textures//wall.jpg");
-    world->room.right = load_texture("textures//wall.jpg");
-    world->room.top = load_texture("textures//ceiling.png");
-    */
+
+    world->room.back = load_texture("textures//fence2.jpg");
+    world->room.front = load_texture("textures//fence.jpg");
+    world->room.left = load_texture("textures//fence.jpg");
+    world->room.right = load_texture("textures//fence.jpg");
+
+    //world->room.top = load_texture("textures//ceiling.png");
 
     // Help
     world->helpTexture = load_texture("textures//help.png");

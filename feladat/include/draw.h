@@ -12,14 +12,10 @@
  */
 void draw_content(World *world);
 
-/**
-* Draws the ground.
-*/
+
 void draw_ground(Room room);
 
-/*
-* Draws the room.
-*/
+
 void draw_walls(Room room);
 
 /**

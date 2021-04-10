@@ -6,7 +6,7 @@
 #include "model.h"
 #include "callbacks.h"
 
-double sizeOfRoom = 5000;
+double sizeOfRoom = 500;
 
 GLfloat material_ambient_default[] = {0.9, 0.9, 0.9, 0.5};
 
@@ -29,7 +29,7 @@ void draw_content(World *world)
 	glPopMatrix();
 
 	glPushMatrix();
-	//draw_walls(roomToDraw);
+	draw_walls(roomToDraw);
 	draw_ground(roomToDraw);
 	glPopMatrix();
 
@@ -64,11 +64,9 @@ void draw_ground(Room room)
 	}
 	glEnd();
 }
-/*
+
 void draw_walls(Room room)
 {
-
-	
 	glBindTexture(GL_TEXTURE_2D, room.left);
 	glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 	glBegin(GL_QUADS);
@@ -133,9 +131,7 @@ void draw_walls(Room room)
 	glTexCoord2f(0.0, 1.0);
 	glVertex3f(-sizeOfRoom, sizeOfRoom, sizeOfRoom);
 	glEnd();
-	
 }
-*/
 
 void draw_triangles(const struct Model *model)
 {
