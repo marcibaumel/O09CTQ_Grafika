@@ -7,10 +7,11 @@
 
 void init_scene(Scene *scene)
 {
-    load_model(&(scene->cube), "duck.obj");
-    scene->texture_id = load_texture("cube.png");
+    load_model(&(scene->cube), "skull2.obj");
+    scene->texture_id = load_texture("Skull.jpg");
 
     glBindTexture(GL_TEXTURE_2D, scene->texture_id);
+
 
     scene->material.ambient.red = 1.0;
     scene->material.ambient.green = 1.0;
