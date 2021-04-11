@@ -1,72 +1,56 @@
 #ifndef CAMERA_H
 #define CAMERA_H
 
-#include "model.h"
+#include "utils.h"
 
-#define CAMERA_SPEED 5.0
-
-struct Camera
+/**
+ * Camera, as a moving point with direction
+ */
+typedef struct Camera
 {
-	struct Vertex position;
-	struct Vertex pose;
-	struct Vertex prev_position;
-};
-
-
-/*
-* Converts degree to radian
-*/
-double degree_to_radian(double degree);
+    vec3 position;
+    vec3 rotation;
+    vec3 speed;
+} Camera;
 
 /**
- * Initialize the camera position and direction.
+ * Is the texture preview visible?
  */
-void init_camera(struct Camera* camera);
+int is_preview_visible;
 
 /**
- * Transform the models into the view point of the camera.
+ * Initialize the camera to the start position.
  */
-void set_view_point(const struct Camera* camera);
+void init_camera(Camera *camera);
 
 /**
- * Rotate the camera horizontally and vertically.
+ * Update the position of the camera.
  */
-void rotate_camera(struct Camera* camera, double horizontal, double vertical);
+void update_camera(Camera *camera, double time);
 
 /**
- * Resets the vertical pose of the camera.
+ * Apply the camera settings to the view transformation.
  */
-void set_clear_camera_pose(struct Camera* camera);
+void set_view(const Camera *camera);
 
 /**
- * Move the camera forward.
+ * Set the horizontal and vertical rotation of the view angle.
  */
-void move_camera_forward(struct Camera* camera, double distance);
+void rotate_camera(Camera *camera, double horizontal, double vertical);
 
 /**
- * Move the camera backward.
+ * Set the speed of forward and backward motion.
  */
-void move_camera_backward(struct Camera* camera, double distance);
+void set_camera_speed(Camera *camera, double speed);
 
 /**
- * Step the camera left.
+ * Set the speed of jump.
  */
-void step_camera_left(struct Camera* camera, double distance);
+void set_camera_jump(Camera *camera, double speed);
 
 /**
- * Step the camera right.
+ * Set the speed of left and right side steps.
  */
-void step_camera_right(struct Camera* camera, double distance);
+void set_camera_side_speed(Camera *camera, double speed);
 
-/**
- * Move the camera up.
- */
-void move_camera_up(struct Camera* camera, double distance);
-
-/**
- * Move the camera down.
- */
-void move_camera_down(struct Camera* camera, double distance);
-
-#endif // CAMERA_H
-
+#endif /* CAMERA_H */

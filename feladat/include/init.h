@@ -1,15 +1,9 @@
-#ifndef INCLUDE_INIT_H_
-#define INCLUDE_INIT_H_
-
-// Lights
-extern GLfloat light_position[];
-extern GLfloat light_ambient[];
-extern GLfloat light_diffuse[];
-extern GLfloat light_specular[];
+#ifndef INIT_H
+#define INIT_H
 
 /**
  * Initialize the OpenGL context.
  */
-void init();
+void init_opengl();
 
-#endif /* INCLUDE_INIT_H_ */
+#endif /* INIT_H */

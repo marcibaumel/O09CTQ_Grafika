@@ -1,148 +1,112 @@
 #include "camera.h"
+
 #include <GL/glut.h>
+
 #include <math.h>
 
-#define M_PI 3.14159265358979323846
-#define size 5000
-
-double degree_to_radian(double degree)
+void init_camera(Camera *camera)
 {
-	return degree * M_PI / 180.0;
+    camera->position.x = 0.0;
+    camera->position.y = 0.0;
+    camera->position.z = 1.0;
+    camera->rotation.x = 0.0;
+    camera->rotation.y = 0.0;
+    camera->rotation.z = 0.0;
+    camera->speed.x = 0.0;
+    camera->speed.y = 0.0;
+    camera->speed.z = 0.0;
+
+    is_preview_visible = FALSE;
 }
 
-void can_move(struct Camera *camera)
+void update_camera(Camera *camera, double time)
 {
-	if (camera->position.x > size || camera->position.x < -size || camera->position.z < -size || camera->position.z > size)
-		camera->position = camera->prev_position;
+    double angle;
+    double side_angle;
+
+    angle = degree_to_radian(camera->rotation.z);
+    side_angle = degree_to_radian(camera->rotation.z + 90.0);
+
+    camera->position.x += cos(angle) * camera->speed.y * time;
+    camera->position.y += sin(angle) * camera->speed.y * time;
+    camera->position.x += cos(side_angle) * camera->speed.x * time;
+    camera->position.y += sin(side_angle) * camera->speed.x * time;
 }
 
-void init_camera(struct Camera *camera)
+void set_view(const Camera *camera)
 {
-	camera->position.x = 0;
-	camera->position.y = 100;
-	camera->position.z = -150;
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 
-	camera->pose.x = 0;
-	camera->pose.y = 0;
-	camera->pose.z = 180;
+    glRotatef(-(camera->rotation.x + 90), 1.0, 0, 0);
+    glRotatef(-(camera->rotation.z - 90), 0, 0, 1.0);
+    glTranslatef(-camera->position.x, -camera->position.y, -camera->position.z);
 }
 
-void set_view_point(const struct Camera *camera)
+void rotate_camera(Camera *camera, double horizontal, double vertical)
 {
-	glRotatef(-(camera->pose.x), 1.0, 0, 0);
-	glRotatef(-(camera->pose.z), 0, 1.0, 0);
-	glTranslatef(-camera->position.x, -camera->position.y, -camera->position.z);
+    camera->rotation.z += horizontal;
+    camera->rotation.x += vertical;
+
+    if (camera->rotation.z < 0)
+    {
+        camera->rotation.z += 360.0;
+    }
+
+    if (camera->rotation.z > 360.0)
+    {
+        camera->rotation.z -= 360.0;
+    }
+
+    if (camera->rotation.x < 0)
+    {
+        camera->rotation.x += 360.0;
+    }
+
+    if (camera->rotation.x > 360.0)
+    {
+        camera->rotation.x -= 360.0;
+    }
 }
 
-void rotate_camera(struct Camera *camera, double horizontal, double vertical)
+void set_camera_speed(Camera *camera, double speed)
 {
-	double fallbackPoseOfX;
-
-	// Vertical, with rollover protection
-	if (camera->pose.x >= 0 && camera->pose.x <= 90)
-	{
-		fallbackPoseOfX = 90;
-	}
-	else
-	{
-		fallbackPoseOfX = 270;
-	}
-
-	if (camera->pose.x + vertical > 90 && camera->pose.x + vertical < 270)
-	{
-		camera->pose.x = fallbackPoseOfX;
-	}
-	else
-	{
-		camera->pose.x += vertical;
-	}
-
-	if (camera->pose.x > 90 && camera->pose.x < 270)
-	{
-		set_clear_camera_pose(camera);
-	}
-
-	// Horizontal
-	camera->pose.z += horizontal;
-
-	if (camera->pose.z < 0)
-	{
-		camera->pose.z += 360.0;
-	}
-
-	if (camera->pose.z > 360.0)
-	{
-		camera->pose.z -= 360.0;
-	}
-
-	if (camera->pose.x < 0)
-	{
-		camera->pose.x += 360.0;
-	}
-
-	if (camera->pose.x > 360.0)
-	{
-		camera->pose.x -= 360.0;
-	}
+    camera->speed.y = speed;
 }
 
-void set_clear_camera_pose(struct Camera *camera)
+void set_camera_jump(Camera *camera, double speed)
 {
-	camera->pose.x = 0;
+    camera->speed.z = speed;
 }
 
-void move_camera_forward(struct Camera *camera, double distance)
+void set_camera_side_speed(Camera *camera, double speed)
 {
-	camera->prev_position = camera->position;
-	double angle = degree_to_radian(camera->pose.z);
-
-	camera->position.z -= cos(angle) * distance;
-	camera->position.x -= sin(angle) * distance;
-	can_move(camera);
+    camera->speed.x = speed;
 }
 
-void move_camera_backward(struct Camera *camera, double distance)
+void show_texture_preview()
 {
-	camera->prev_position = camera->position;
-	double angle = degree_to_radian(camera->pose.z);
+    glDisable(GL_LIGHTING);
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_COLOR_MATERIAL);
 
-	camera->position.z += cos(angle) * distance;
-	camera->position.x += sin(angle) * distance;
-	can_move(camera);
-}
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
 
-void step_camera_left(struct Camera *camera, double distance)
-{
-	camera->prev_position = camera->position;
-	double angle = degree_to_radian(camera->pose.z + 90.0);
+    glColor3f(1, 1, 1);
 
-	camera->position.z -= cos(angle) * distance;
-	camera->position.x -= sin(angle) * distance;
-	can_move(camera);
-}
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
+    glVertex3f(-1, 1, -3);
+    glTexCoord2f(1, 0);
+    glVertex3f(1, 1, -3);
+    glTexCoord2f(1, 1);
+    glVertex3f(1, -1, -3);
+    glTexCoord2f(0, 1);
+    glVertex3f(-1, -1, -3);
+    glEnd();
 
-void step_camera_right(struct Camera *camera, double distance)
-{
-	camera->prev_position = camera->position;
-	double angle = degree_to_radian(camera->pose.z - 90.0);
-
-	camera->position.z -= cos(angle) * distance;
-	camera->position.x -= sin(angle) * distance;
-	can_move(camera);
-}
-
-void move_camera_up(struct Camera *camera, double distance)
-{
-	camera->prev_position = camera->position;
-	if (camera->position.y < size - 10)
-		camera->position.y += distance;
-	can_move(camera);
-}
-
-void move_camera_down(struct Camera *camera, double distance)
-{
-	camera->prev_position = camera->position;
-	if (camera->position.y > 10)
-		camera->position.y -= distance;
-	can_move(camera);
+    glDisable(GL_COLOR_MATERIAL);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_DEPTH_TEST);
 }

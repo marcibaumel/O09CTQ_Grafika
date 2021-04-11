@@ -1,226 +1,138 @@
-#include <math.h>
-
 #include "callbacks.h"
-#include "init.h"
-#include "draw.h"
-#include "model.h"
-#include "move.h"
 
-int isHelpOn = 0;
+#define VIEWPORT_RATIO (4.0 / 3.0)
+#define VIEWPORT_ASPECT 50.0
 
-int WINDOW_WIDTH;
-int WINDOW_HEIGHT;
-
-void display(void)
+struct
 {
-	double elapsed_time = calc_elapsed_time();
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glMatrixMode(GL_MODELVIEW);
-	glLoadIdentity();
+    int x;
+    int y;
+} mouse_position;
 
-	update_camera_position(&camera, elapsed_time);
-	draw_content(&world);
+void display()
+{
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
 
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
-	gluPerspective(60.0, (GLdouble)WINDOW_WIDTH / (GLdouble)WINDOW_HEIGHT, 0.1, 20000.0);
-	glViewport(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+    glPushMatrix();
+    set_view(&camera);
+    draw_scene(&scene);
+    glPopMatrix();
 
-	set_view_point(&camera);
+    if (is_preview_visible)
+    {
+        show_texture_preview();
+    }
 
-	if (isHelpOn)
-	{
-		GLfloat torchForHelp[] = {0.8, 0.8, 0.8, 0.8};
-		glLightfv(GL_LIGHT1, GL_AMBIENT, torchForHelp);
-
-		glLoadIdentity();
-		gluOrtho2D(0, WINDOW_WIDTH, WINDOW_HEIGHT, 0);
-
-		draw_help(world.helpTexture);
-
-		glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
-	}
-
-	glutSwapBuffers();
+    glutSwapBuffers();
 }
 
 void reshape(GLsizei width, GLsizei height)
 {
-	WINDOW_WIDTH = width;
-	WINDOW_HEIGHT = height;
+    int x, y, w, h;
+    double ratio;
 
-	set_clear_camera_pose(&camera);
-}
+    ratio = (double)width / height;
+    if (ratio > VIEWPORT_RATIO)
+    {
+        w = (int)((double)height * VIEWPORT_RATIO);
+        h = height;
+        x = (width - w) / 2;
+        y = 0;
+    }
+    else
+    {
+        w = width;
+        h = (int)((double)width / VIEWPORT_RATIO);
+        x = 0;
+        y = (height - h) / 2;
+    }
 
-void keyboard(unsigned char key, int x, int y)
-{
-	switch (key)
-	{
-	case 'w':
-		action.move_forward = TRUE;
-		break;
-	case 's':
-		action.move_backward = TRUE;
-		break;
-	case 'a':
-		action.step_left = TRUE;
-		break;
-	case 'd':
-		action.step_right = TRUE;
-		break;
-	case 'c':
-		action.move_down = TRUE;
-		break;
-	case 32:
-		action.move_up = TRUE;
-		break;
-	case '+':
-		action.increase_light = TRUE;
-		break;
-	case '-':
-		action.decrease_light = TRUE;
-		break;
-	case 27:
-		exit(0);
-	}
-
-	glutPostRedisplay();
-}
-
-void keyboardUp(unsigned char key, int x, int y)
-{
-	switch (key)
-	{
-	case 'w':
-		action.move_forward = FALSE;
-		break;
-	case 's':
-		action.move_backward = FALSE;
-		break;
-	case 'a':
-		action.step_left = FALSE;
-		break;
-	case 'd':
-		action.step_right = FALSE;
-		break;
-	case 'c':
-		action.move_down = FALSE;
-		break;
-	case 32:
-		action.move_up = FALSE;
-		break;
-	case '+':
-		action.increase_light = FALSE;
-		break;
-	case '-':
-		action.decrease_light = FALSE;
-		break;
-	}
-
-	glutPostRedisplay();
-}
-
-void specialFunc(int key, int x, int y)
-{
-	switch (key)
-	{
-	case GLUT_KEY_F1:
-		if (isHelpOn == 1)
-		{
-			isHelpOn = 0;
-		}
-		else
-			isHelpOn = 1;
-	}
+    glViewport(x, y, w, h);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluPerspective(VIEWPORT_ASPECT, VIEWPORT_RATIO, 0.01, 10000.0);
 }
 
 void mouse(int button, int state, int x, int y)
 {
-	mouse_x = x;
-	mouse_y = y;
+    mouse_position.x = x;
+    mouse_position.y = y;
 }
 
 void motion(int x, int y)
 {
-	double horizontal, vertical;
+    rotate_camera(&camera, mouse_position.x - x, mouse_position.y - y);
+    mouse_position.x = x;
+    mouse_position.y = y;
+    glutPostRedisplay();
+}
 
-	horizontal = mouse_x - x;
-	vertical = mouse_y - y;
+void keyboard(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+    case 'w':
+        set_camera_speed(&camera, 1);
+        break;
+    case 's':
+        set_camera_speed(&camera, -1);
+        break;
+    case 'a':
+        set_camera_side_speed(&camera, 1);
+        break;
+    case 'd':
+        set_camera_side_speed(&camera, -1);
+        break;
+    case 'z':
+        set_camera_jump(&camera, 1);
+        break;
+    case 't':
+        if (is_preview_visible)
+        {
+            is_preview_visible = FALSE;
+        }
+        else
+        {
+            is_preview_visible = TRUE;
+        }
+        break;
+    }
 
-	rotate_camera(&camera, horizontal, vertical);
+    glutPostRedisplay();
+}
 
-	mouse_x = x;
-	mouse_y = y;
+void keyboard_up(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+    case 'w':
+    case 's':
+        set_camera_speed(&camera, 0.0);
+        break;
+    case 'a':
+    case 'd':
+        set_camera_side_speed(&camera, 0.0);
+        break;
+    case 'z':
+        set_camera_jump(&camera, 1);
+        break;
+    }
 
-	glutPostRedisplay();
+    glutPostRedisplay();
 }
 
 void idle()
 {
-	glutPostRedisplay();
-}
+    static int last_frame_time = 0;
+    int current_time;
+    double elapsed_time;
 
-double calc_elapsed_time()
-{
-	static int last_frame_time = 0;
-	int current_time;
-	double elapsed_time;
+    current_time = glutGet(GLUT_ELAPSED_TIME);
+    elapsed_time = (double)(current_time - last_frame_time) / 1000;
+    last_frame_time = current_time;
 
-	current_time = glutGet(GLUT_ELAPSED_TIME);
-	elapsed_time = (double)(current_time - last_frame_time) / 1000.0;
-	last_frame_time = current_time;
+    update_camera(&camera, elapsed_time);
 
-	return elapsed_time;
-}
-
-void update_camera_position(struct Camera *camera, double elapsed_time)
-{
-	float speed = 30;
-	double distance;
-
-	distance = elapsed_time * CAMERA_SPEED * speed;
-
-	if (action.move_forward == TRUE)
-	{
-		move_camera_forward(camera, distance);
-	}
-
-	if (action.move_backward == TRUE)
-	{
-		move_camera_backward(camera, distance);
-	}
-
-	if (action.step_left == TRUE)
-	{
-		step_camera_left(camera, distance);
-	}
-
-	if (action.step_right == TRUE)
-	{
-		step_camera_right(camera, distance);
-	}
-
-	if (action.move_up == TRUE)
-	{
-		move_camera_up(camera, distance);
-	}
-
-	if (action.move_down == TRUE)
-	{
-		move_camera_down(camera, distance);
-	}
-
-	if (action.increase_light == TRUE)
-	{
-		if (light_ambient[0] < 1)
-			light_ambient[0] = light_ambient[1] = light_ambient[2] += 0.01;
-		glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
-	}
-
-	if (action.decrease_light == TRUE)
-	{
-		if (light_ambient[0] > -0.60)
-			light_ambient[0] = light_ambient[1] = light_ambient[2] -= 0.01;
-		glLightfv(GL_LIGHT1, GL_AMBIENT, light_ambient);
-	}
+    glutPostRedisplay();
 }
