@@ -14,28 +14,28 @@ FPS kamara nézetben bejárhatjuk egy parkot ami Jurassic Parkot tematikája ala
 Egérrel tudjuk irányítani a kamerát 
 
 Mozgás:
-
-W- Előre
-S- Hátra
-D- Jobbra
-A- Balra
-
+<br><br>
+W- Előre <br>
+S- Hátra <br>
+D- Jobbra <br>
+A- Balra 
+<br><br><br>
 Guid Behívása:
-
+<br><br>
 T Gomb (még nem teljesen jó)
-
+<br><br><br>
 <strong>Még nem Implementált funkciók:</strong>
-
+<br><br>
 Extra kamera mozgatás:
-
-U -Fel
+<br><br>
+U -Fel<br><br>
 I  - Le
-
+<br><br>
 Fényerő Módosítás:
-
-Fényerő növelése: +
+<br><br>
+Fényerő növelése: +<br>
 Fényerő csökkentés: -
-
+<br><br>
 
 
 
