@@ -1,11 +1,42 @@
 # O09CTQ_Grafika
  
+ ![alt text](https://github.com/marcibaumel/O09CTQ_Grafika/blob/main/feladat/textures/guide.png "Title")
+ 
+<strong>Feladat:</strong>
+
 Jurassic Park szerű park bejárás.
 
-FPS kamara nézetben bejárhatjuk a parkot ahol a ketrecek mögött dínók lennéek és ha rákantintúnk akkor kiírná a képernyőre valamennyi adatát (nevét, tulajdonságát). Lenne egy olyan objektum amit ha közel viszünk a ketrechez akkor az eltűnik ami az etetés szimbolizálja.
+FPS kamara nézetben bejárhatjuk egy parkot ami Jurassic Parkot tematikája alapján készül el ahol a dínók lennének és ha rákattintunk egy bizonyos gombra akkor kiírná a képernyőre valamennyi adatát (nevét, tulajdonságát). 
 
 
-![alt text](https://i.pinimg.com/originals/26/a2/3b/26a23b1c93b62041a298dd875d210fae.jpg)
-![alt text](https://play-lh.googleusercontent.com/1llnCCSg2ZxaENtKIhEsdfc2-qNh5Ldz1snEJ0cAhhifP0b7VgYFc3cX9mMBOKM3B1Y)
+<strong>Implementált funkciók:</strong>
 
-FPS kamara nézetben bejárhatjuk a parkot ahol a ketrecek mögött dínók lennéek és ha rákant
+Egérrel tudjuk irányítani a kamerát 
+
+Mozgás:
+
+W- Előre
+S- Hátra
+D- Jobbra
+A- Balra
+
+Guid Behívása:
+
+T Gomb (még nem teljesen jó)
+
+<strong>Még nem Implementált funkciók:</strong>
+
+Extra kamera mozgatás:
+
+U -Fel
+I  - Le
+
+Fényerő Módosítás:
+
+Fényerő növelése: +
+Fényerő csökkentés: -
+
+
+
+
+
