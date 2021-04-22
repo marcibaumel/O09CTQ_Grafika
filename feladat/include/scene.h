@@ -22,13 +22,24 @@ typedef struct Scene
     GLuint texture_id[3];
 } Scene;
 
-
+/**
+ * Initialize the scene by loading models.
+ */
 void init_scene(Scene *scene);
 
+/**
+ * Set the lighting of the scene.
+ */
 void set_lighting();
 
+/**
+ * Set the current material.
+ */
 void set_material(const Material *material);
 
+/**
+ * Draw the scene objects.
+ */
 void draw_scene(const Scene *scene);
 
 void init_models(Scene *scene);
