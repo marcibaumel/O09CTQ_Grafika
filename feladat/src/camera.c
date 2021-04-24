@@ -7,7 +7,7 @@
 
 void can_move(Camera *camera)
 {
-    if (camera->position.x > size || camera->position.x < -size || camera->position.y < -size || camera->position.y > size)
+    if (camera->position.x > size || camera->position.x < -size || camera->position.y < -size || camera->position.y > size || camera->position.z > size / 2 - 1 || camera->position.z < -size / 2 + 1)
     {
         camera->prev_position = camera->position;
     }
@@ -36,18 +36,24 @@ void update_camera(Camera *camera, double time)
     angle = degree_to_radian(camera->rotation.z);
     side_angle = degree_to_radian(camera->rotation.z + 90.0);
 
-    if (!(camera->position.x > size || camera->position.x < -size || camera->position.y < -size || camera->position.y > size || camera->position.z > size / 2 - 1 || camera->position.z < -size / 2 + 1))
+    if (!(camera->position.x > size || camera->position.x < -size || camera->position.y < -size - 1 || camera->position.y > size - 1 || camera->position.z > size / 8 || camera->position.z < 0.3))
     {
         camera->prev_position = camera->position;
         camera->position.x += cos(angle) * camera->speed.y * time;
         camera->position.y += sin(angle) * camera->speed.y * time;
         camera->position.x += cos(side_angle) * camera->speed.x * time;
         camera->position.y += sin(side_angle) * camera->speed.x * time;
+        camera->position.z += camera->speed.z * time;
     }
     else
     {
         camera->position = camera->prev_position;
     }
+}
+
+void set_camera_vertical_speed(Camera *camera, double speed)
+{
+    camera->speed.z = speed;
 }
 
 void set_view(const Camera *camera)

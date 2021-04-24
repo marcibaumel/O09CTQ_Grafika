@@ -20,6 +20,7 @@ typedef struct Scene
 {
     Object skeleton;
     Object trex;
+    Object sign;
     Material material;
     GLuint texture_id[10];
     float light;

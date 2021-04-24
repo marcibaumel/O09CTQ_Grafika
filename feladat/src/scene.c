@@ -35,6 +35,7 @@ void init_models(Scene *scene)
 {
     load_model(&(scene->skeleton), "models/skeleton.obj");
     load_model(&(scene->trex), "models/trex.obj");
+    load_model(&(scene->sign), "models/sign.obj");
 }
 
 void set_position(Scene *scene)
@@ -53,6 +54,7 @@ void init_textures(Scene *scene)
     scene->texture_id[3] = load_texture("textures/guide.png");
     scene->texture_id[4] = load_texture("textures/bone.png");
     scene->texture_id[5] = load_texture("textures/trex.jpg");
+    scene->texture_id[6] = load_texture("textures/sign.jpg");
 }
 
 void set_lighting(Scene *scene)
