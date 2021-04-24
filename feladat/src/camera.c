@@ -15,9 +15,9 @@ void can_move(Camera *camera)
 
 void init_camera(Camera *camera)
 {
-    camera->position.x = 0.0;
+    camera->position.x = -10.0;
     camera->position.y = 0.0;
-    camera->position.z = 0.4;
+    camera->position.z = 0.8;
     camera->rotation.x = 0.0;
     camera->rotation.y = 0.0;
     camera->rotation.z = 0.0;
@@ -134,12 +134,12 @@ void show_help(struct Scene *scene)
     glDisable(GL_LIGHTING);
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_COLOR_MATERIAL);
-    glBindTexture(GL_TEXTURE_2D, scene->texture_id[5]);
-    glScalef(2, 2, 2);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[3]);
+
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    glColor3f(1, 1, 1);
+    glColor3f(scene->light, scene->light, scene->light);
 
     glBegin(GL_QUADS);
     glTexCoord2f(0, 0);

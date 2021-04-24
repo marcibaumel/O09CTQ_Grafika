@@ -10,6 +10,7 @@ typedef struct Object
 {
     Model model;
     vec3 position;
+    vec3 scale;
     vec3 speed;
     vec3 rotation;
     vec3 prev_position;
@@ -18,28 +19,20 @@ typedef struct Object
 typedef struct Scene
 {
     Object skeleton;
+    Object trex;
     Material material;
-    GLuint texture_id[3];
+    GLuint texture_id[10];
+    float light;
 } Scene;
 
-/**
- * Initialize the scene by loading models.
- */
 void init_scene(Scene *scene);
 
-/**
- * Set the lighting of the scene.
- */
-void set_lighting();
+void set_position(Scene *scene);
 
-/**
- * Set the current material.
- */
+void set_lighting(Scene *scene);
+
 void set_material(const Material *material);
 
-/**
- * Draw the scene objects.
- */
 void draw_scene(const Scene *scene);
 
 void init_models(Scene *scene);
@@ -47,4 +40,5 @@ void init_models(Scene *scene);
 void init_textures(Scene *scene);
 
 void draw_ground(Scene *scene);
+
 #endif /* SCENE_H */

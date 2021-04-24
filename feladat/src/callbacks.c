@@ -95,6 +95,18 @@ void keyboard(unsigned char key, int x, int y)
             is_preview_visible = TRUE;
         }
         break;
+    case '+':
+        if (scene.light < 1.0)
+        {
+            scene.light += 0.1;
+        }
+        break;
+    case '-':
+        if (scene.light > 0.2)
+        {
+            scene.light -= 0.1;
+        }
+        break;
     }
 
     glutPostRedisplay();

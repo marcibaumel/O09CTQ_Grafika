@@ -11,6 +11,7 @@
 void init_scene(Scene *scene)
 {
     init_models(scene);
+    set_position(scene);
     init_textures(scene);
 
     scene->material.ambient.red = 1.0;
@@ -26,10 +27,22 @@ void init_scene(Scene *scene)
     scene->material.specular.blue = 0.0;
 
     scene->material.shininess = 0.0;
+
+    scene->light = 0.7f;
 }
+
 void init_models(Scene *scene)
 {
     load_model(&(scene->skeleton), "models/skeleton.obj");
+    load_model(&(scene->trex), "models/trex.obj");
+}
+
+void set_position(Scene *scene)
+{
+    scene->skeleton.position.x = 0.0;
+    scene->skeleton.position.z = 20.0;
+
+    scene->trex.position.y = -0.8;
 }
 
 void init_textures(Scene *scene)
@@ -37,14 +50,37 @@ void init_textures(Scene *scene)
     scene->texture_id[0] = load_texture("textures/polydesert_atlas.png");
     scene->texture_id[1] = load_texture("textures/floor.png");
     scene->texture_id[2] = load_texture("textures/up.png");
-    scene->texture_id[5] = load_texture("textures/guide.png");
+    scene->texture_id[3] = load_texture("textures/guide.png");
+    scene->texture_id[4] = load_texture("textures/bone.png");
+    scene->texture_id[5] = load_texture("textures/trex.jpg");
 }
-void set_lighting()
+
+void set_lighting(Scene *scene)
 {
-    float ambient_light[] = {0.5f, 0.5f, 0.5f, 1.0f};
-    float diffuse_light[] = {0.5f, 0.5f, 0.5, 1.0f};
-    float specular_light[] = {0.5f, 0.5f, 0.5f, 1.0f};
-    float position[] = {0.0f, 0.0f, 60.0f, 0.0f};
+    float ambient_light[4];
+    float diffuse_light[4];
+    float specular_light[4];
+    float position[4];
+
+    ambient_light[0] = scene->light;
+    ambient_light[1] = scene->light;
+    ambient_light[2] = scene->light;
+    ambient_light[3] = 1.0f;
+
+    diffuse_light[0] = scene->light;
+    diffuse_light[1] = scene->light;
+    diffuse_light[2] = scene->light;
+    diffuse_light[3] = 1.0f;
+
+    specular_light[0] = scene->light;
+    specular_light[1] = scene->light;
+    specular_light[2] = scene->light;
+    specular_light[3] = 1.0f;
+
+    position[0] = 0.0f;
+    position[1] = 0.0f;
+    position[2] = 10.0f;
+    position[3] = 0.0f;
 
     glLightfv(GL_LIGHT0, GL_AMBIENT, ambient_light);
     glLightfv(GL_LIGHT0, GL_DIFFUSE, diffuse_light);
@@ -75,19 +111,29 @@ void set_material(const Material *material)
 
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, &(material->shininess));
 }
+
 float angle = 0.0f;
 
 void draw_scene(const Scene *scene)
 {
     set_material(&(scene->material));
-    set_lighting();
+    set_lighting(scene);
     glScalef(0.5, 0.5, 0.5);
     glRotatef(90, 1, 0, 0);
+
     glPushMatrix();
-    glBindTexture(GL_TEXTURE_2D, scene->texture_id[0]);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[4]);
+    glTranslatef(scene->skeleton.position.x, scene->skeleton.position.y, scene->skeleton.position.z);
     glRotatef(angle, 0.0f, 1.0f, 0.0f);
     angle += 0.1f;
     draw_model(&(scene->skeleton));
+    glPopMatrix();
+
+    glPushMatrix();
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[5]);
+    glTranslatef(scene->trex.position.x, scene->trex.position.y, scene->trex.position.z);
+    glScalef(0.01f, 0.01f, 0.01f);
+    draw_model(&(scene->trex));
     glPopMatrix();
 
     glPushMatrix();
@@ -104,9 +150,9 @@ void draw_scene(const Scene *scene)
     glVertex3f(-2000, 60, 2000);
     glEnd();
     glPopMatrix();
-
     draw_ground(scene);
 }
+
 void draw_ground(Scene *scene)
 {
     glBindTexture(GL_TEXTURE_2D, scene->texture_id[1]);
