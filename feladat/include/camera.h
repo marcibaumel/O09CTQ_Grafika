@@ -2,6 +2,7 @@
 #define CAMERA_H
 
 #include "utils.h"
+#include "scene.h"
 
 /**
  * Camera, as a moving point with direction
@@ -22,31 +23,32 @@ int is_preview_visible;
 /**
  * Initialize the camera to the start position.
  */
-void init_camera(Camera* camera);
+void init_camera(Camera *camera);
 
 /**
  * Update the position of the camera.
  */
-void update_camera(Camera* camera, double time);
+void update_camera(Camera *camera, double time);
 
 /**
  * Apply the camera settings to the view transformation.
  */
-void set_view(const Camera* camera);
+void set_view(const Camera *camera);
 
 /**
  * Set the horizontal and vertical rotation of the view angle.
  */
-void rotate_camera(Camera* camera, double horizontal, double vertical);
+void rotate_camera(Camera *camera, double horizontal, double vertical);
 
 /**
  * Set the speed of forward and backward motion.
  */
-void set_camera_speed(Camera* camera, double speed);
+void set_camera_speed(Camera *camera, double speed);
 
 /**
  * Set the speed of left and right side steps.
  */
-void set_camera_side_speed(Camera* camera, double speed);
+void set_camera_side_speed(Camera *camera, double speed);
 
+void show_help(struct Scene* scene);
 #endif /* CAMERA_H */
