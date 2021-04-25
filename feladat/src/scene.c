@@ -35,7 +35,7 @@ void init_models(Scene *scene)
 {
     load_model(&(scene->skeleton), "models/skeleton.obj");
     load_model(&(scene->trex), "models/trex.obj");
-    load_model(&(scene->sign), "models/sign.obj");
+    load_model(&(scene->sign), "models/sign2.obj");
 }
 
 void set_position(Scene *scene)
@@ -136,6 +136,13 @@ void draw_scene(const Scene *scene)
     glTranslatef(scene->trex.position.x, scene->trex.position.y, scene->trex.position.z);
     glScalef(0.01f, 0.01f, 0.01f);
     draw_model(&(scene->trex));
+    glPopMatrix();
+
+    glPushMatrix();
+    //glRotatef(180.0f, 180.0f, 180.0f, 180.0f);
+    glScalef(0.1f, 0.1f, 0.1f);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[6]);
+    draw_model(&(scene->sign));
     glPopMatrix();
 
     glPushMatrix();
