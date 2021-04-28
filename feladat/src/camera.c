@@ -3,7 +3,7 @@
 
 #include <math.h>
 #include "scene.h"
-#define size 55
+#define size 15
 
 void can_move(Camera *camera)
 {
@@ -145,17 +145,17 @@ void show_help(struct Scene *scene)
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-    glColor3f(scene->light, scene->light, scene->light);
+    //glColor3f(scene->light, scene->light, scene->light);
 
     glBegin(GL_QUADS);
     glTexCoord2f(0, 0);
-    glVertex3f(-1, 1, -3);
+    glVertex3f(-2, 1, -3);
     glTexCoord2f(1, 0);
-    glVertex3f(1, 1, -3);
+    glVertex3f(2, 1, -3);
     glTexCoord2f(1, 1);
-    glVertex3f(1, -1, -3);
+    glVertex3f(2, -1, -3);
     glTexCoord2f(0, 1);
-    glVertex3f(-1, -1, -3);
+    glVertex3f(-2, -1, -3);
     glEnd();
 
     glDisable(GL_COLOR_MATERIAL);

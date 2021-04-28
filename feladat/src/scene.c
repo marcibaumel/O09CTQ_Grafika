@@ -50,11 +50,12 @@ void init_textures(Scene *scene)
 {
     scene->texture_id[0] = load_texture("textures/polydesert_atlas.png");
     scene->texture_id[1] = load_texture("textures/floor.png");
-    scene->texture_id[2] = load_texture("textures/up.png");
+    scene->texture_id[2] = load_texture("textures/skybox.jpg");
     scene->texture_id[3] = load_texture("textures/guide.png");
     scene->texture_id[4] = load_texture("textures/bone.png");
     scene->texture_id[5] = load_texture("textures/trex.jpg");
     scene->texture_id[6] = load_texture("textures/sign.jpg");
+    scene->texture_id[7] = load_texture("textures/forest.jpg");
 }
 
 void set_lighting(Scene *scene)
@@ -118,6 +119,7 @@ float angle = 0.0f;
 
 void draw_scene(const Scene *scene)
 {
+
     set_material(&(scene->material));
     set_lighting(scene);
     glScalef(0.5, 0.5, 0.5);
@@ -139,8 +141,7 @@ void draw_scene(const Scene *scene)
     glPopMatrix();
 
     glPushMatrix();
-    //glRotatef(180.0f, 180.0f, 180.0f, 180.0f);
-    glScalef(0.1f, 0.1f, 0.1f);
+    glScalef(0.03f, 0.03f, 0.03f);
     glBindTexture(GL_TEXTURE_2D, scene->texture_id[6]);
     draw_model(&(scene->sign));
     glPopMatrix();
@@ -150,15 +151,16 @@ void draw_scene(const Scene *scene)
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glBegin(GL_QUADS);
     glTexCoord2f(1.0, 1.0);
-    glVertex3f(2000, 60, 2000);
+    glVertex3f(100, 60, 100);
     glTexCoord2f(1.0, 0.0);
-    glVertex3f(2000, 60, -2000);
+    glVertex3f(100, 60, -100);
     glTexCoord2f(0.0, 0.0);
-    glVertex3f(-2000, 60, -2000);
+    glVertex3f(-100, 60, -100);
     glTexCoord2f(0.0, 1.0);
-    glVertex3f(-2000, 60, 2000);
+    glVertex3f(-100, 60, 100);
     glEnd();
     glPopMatrix();
+
     draw_ground(scene);
 }
 
@@ -170,11 +172,12 @@ void draw_ground(Scene *scene)
 
     glBegin(GL_QUADS);
     int x, z, y;
-    for (x = -210; x < 210; x += 3)
+    for (x = -100; x < 100; x += 3)
     {
-        for (z = -210; z < 210; z += 3)
+        for (z = -100; z < 100; z += 3)
         {
             y = 0;
+
             glTexCoord2f(0.0, 0.0);
             glNormal3f(0, -1, 0);
             glVertex3f(x, y, z);
@@ -189,5 +192,56 @@ void draw_ground(Scene *scene)
             glVertex3f(x, y, z + 3);
         }
     }
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[7]);
+    glBegin(GL_QUADS);
+    glTexCoord2f(1.0, 1.0);
+    glVertex3f(-100, 0, -100);
+    glTexCoord2f(1.0, 0.0);
+    glVertex3f(-100, 100, -100);
+    glTexCoord2f(0.0, 0.0);
+    glVertex3f(-100, 100, 100);
+    glTexCoord2f(0.0, 1.0);
+    glVertex3f(-100, 0, 100);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[7]);
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(1.0, 1.0);
+    glVertex3f(100, 0, 100);
+    glTexCoord2f(1.0, 0.0);
+    glVertex3f(100, 100, 100);
+    glTexCoord2f(0.0, 0.0);
+    glVertex3f(100, 100, -100);
+    glTexCoord2f(0.0, 1.0);
+    glVertex3f(100, 0, -100);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[7]);
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(0.0, 1.0);
+    glVertex3f(-100, 0, -100);
+    glTexCoord2f(1.0, 1.0);
+    glVertex3f(100, 0, -100);
+    glTexCoord2f(1.0, 0.0);
+    glVertex3f(100, 100, -100);
+    glTexCoord2f(0.0, 0.0);
+    glVertex3f(-100, 100, -100);
+    glEnd();
+
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[7]);
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(1.0, 1.0);
+    glVertex3f(-100, 0, 100);
+    glTexCoord2f(1.0, 0.0);
+    glVertex3f(-100, 100, 100);
+    glTexCoord2f(0.0, 0.0);
+    glVertex3f(100, 100, 100);
+    glTexCoord2f(0.0, 1.0);
+    glVertex3f(100, 0, 100);
     glEnd();
 }

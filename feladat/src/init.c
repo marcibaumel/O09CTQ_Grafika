@@ -1,5 +1,4 @@
 #include "init.h"
-
 #include <GL/glut.h>
 
 void init_opengl()

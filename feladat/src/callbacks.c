@@ -21,7 +21,6 @@ void display()
 
     if (is_preview_visible)
     {
-        //show_texture_preview();
         show_help(&scene);
     }
 
@@ -52,7 +51,7 @@ void reshape(GLsizei width, GLsizei height)
     glViewport(x, y, w, h);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluPerspective(VIEWPORT_ASPECT, VIEWPORT_RATIO, 0.01, 10000.0);
+    gluPerspective(VIEWPORT_ASPECT, VIEWPORT_RATIO, 0.01, 1000.0);
 }
 
 void mouse(int button, int state, int x, int y)

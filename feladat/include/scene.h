@@ -4,6 +4,7 @@
 #include "camera.h"
 #include "texture.h"
 
+
 #include <obj/model.h>
 
 typedef struct Object
