@@ -39,6 +39,7 @@ void init_models(Scene *scene)
     load_model(&(scene->sign), "models/sign2.obj");
     load_model(&(scene->fenceFront), "models/fence.obj");
     load_model(&(scene->grass1_model), "models/grass.obj");
+    load_model(&(scene->triceratop), "models/triceratop.obj");
 }
 
 void init_lists(Scene *scene)
@@ -77,6 +78,8 @@ void set_position(Scene *scene)
     scene->trex.position.y = -0.8;
 
     scene->fenceFront.position.z = -32.0;
+
+    scene->triceratop.position.z = -20.0;
 }
 
 void init_textures(Scene *scene)
@@ -176,6 +179,14 @@ void draw_scene(const Scene *scene)
     glTranslatef(scene->trex.position.x, scene->trex.position.y, scene->trex.position.z);
     glScalef(0.01f, 0.01f, 0.01f);
     draw_model(&(scene->trex));
+    glPopMatrix();
+
+    glPushMatrix();
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[5]);
+    glTranslatef(scene->triceratop.position.x, scene->triceratop.position.y, scene->triceratop.position.z);
+    glScalef(0.1f, 0.1f, 0.1f);
+    glRotatef(angle+270.0f, 0.0f, 1.0f, 0.0f);
+    draw_model(&(scene->triceratop));
     glPopMatrix();
 
     glPushMatrix();
