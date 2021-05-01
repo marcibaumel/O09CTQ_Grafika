@@ -12,6 +12,7 @@ void init_scene(Scene *scene)
 {
     init_models(scene);
     set_position(scene);
+    init_lists(scene);
     init_textures(scene);
 
     scene->material.ambient.red = 1.0;
@@ -36,14 +37,46 @@ void init_models(Scene *scene)
     load_model(&(scene->skeleton), "models/skeleton.obj");
     load_model(&(scene->trex), "models/trex.obj");
     load_model(&(scene->sign), "models/sign2.obj");
+    load_model(&(scene->fenceFront), "models/fence.obj");
+    load_model(&(scene->grass1_model), "models/grass.obj");
+}
+
+void init_lists(Scene *scene)
+{
+    scene->staticobject_display_list_id[0] = glGenLists(1);
+    glNewList(scene->staticobject_display_list_id[0], GL_COMPILE);
+    draw_model(&(scene->grass1_model));
+    glEndList();
 }
 
 void set_position(Scene *scene)
 {
+
+    int xy[2];
+    int i, j;
+    int positiondb = 0;
+
+    srand(time(NULL));
+    for (i = 0; i < 100; i++)
+    {
+        for (j = 0; j < 2; j++)
+        {
+            xy[j] = rand() % (50 - (-50)) - 50;
+        }
+        scene->grass1[i].position.x = xy[0];
+        scene->grass1[i].position.y = xy[1];
+
+        scene->positions[positiondb].x = xy[0];
+        scene->positions[positiondb].y = xy[1];
+        positiondb++;
+    }
+
     scene->skeleton.position.x = 0.0;
     scene->skeleton.position.z = 20.0;
 
     scene->trex.position.y = -0.8;
+
+    scene->fenceFront.position.z = -32.0;
 }
 
 void init_textures(Scene *scene)
@@ -56,6 +89,8 @@ void init_textures(Scene *scene)
     scene->texture_id[5] = load_texture("textures/trex.jpg");
     scene->texture_id[6] = load_texture("textures/sign.jpg");
     scene->texture_id[7] = load_texture("textures/forest.jpg");
+    scene->texture_id[8] = load_texture("textures/fence.jpg");
+    scene->texture_id[9] = load_texture("textures/grass.jpg");
 }
 
 void set_lighting(Scene *scene)
@@ -68,12 +103,12 @@ void set_lighting(Scene *scene)
     ambient_light[0] = scene->light;
     ambient_light[1] = scene->light;
     ambient_light[2] = scene->light;
-    ambient_light[3] = 1.0f;
+    ambient_light[3] = 10.0f;
 
     diffuse_light[0] = scene->light;
     diffuse_light[1] = scene->light;
     diffuse_light[2] = scene->light;
-    diffuse_light[3] = 1.0f;
+    diffuse_light[3] = 10.0f;
 
     specular_light[0] = scene->light;
     specular_light[1] = scene->light;
@@ -125,6 +160,9 @@ void draw_scene(const Scene *scene)
     glScalef(0.5, 0.5, 0.5);
     glRotatef(90, 1, 0, 0);
 
+    draw_grass(scene);
+    draw_space(scene);
+
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, scene->texture_id[4]);
     glTranslatef(scene->skeleton.position.x, scene->skeleton.position.y, scene->skeleton.position.z);
@@ -147,6 +185,57 @@ void draw_scene(const Scene *scene)
     glPopMatrix();
 
     glPushMatrix();
+    glScalef(4.2f, 0.9f, 0.9f);
+    glTranslatef(scene->fenceFront.position.x, scene->fenceFront.position.y, scene->fenceFront.position.z);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[8]);
+    draw_model(&(scene->fenceFront));
+    glPopMatrix();
+
+    glPushMatrix();
+    glScalef(4.2f, 0.9f, 0.9f);
+    glTranslatef(scene->fenceFront.position.x, scene->fenceFront.position.y, scene->fenceFront.position.z * -1.15);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[8]);
+    draw_model(&(scene->fenceFront));
+    glPopMatrix();
+
+    glPushMatrix();
+    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+    glScalef(4.0f, 0.9f, 0.9f);
+    glTranslatef(scene->fenceFront.position.x, scene->fenceFront.position.y, scene->fenceFront.position.z * 0 - 35);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[8]);
+    draw_model(&(scene->fenceFront));
+    glPopMatrix();
+
+    glPushMatrix();
+    glRotatef(90.0f, 0.0f, 1.0f, 0.0f);
+    glScalef(4.0f, 0.9f, 0.9f);
+    glTranslatef(scene->fenceFront.position.x, scene->fenceFront.position.y, scene->fenceFront.position.z * 0 + 35);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[8]);
+    draw_model(&(scene->fenceFront));
+    glPopMatrix();
+}
+
+void draw_grass(Scene *scene)
+{
+    int i;
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[9]);
+
+    for (i = 0; i < 100; i++)
+    {
+        glPushMatrix();
+
+        glTranslatef(scene->grass1[i].position.x, 0, scene->grass1[i].position.y);
+        glRotatef(scene->grass1[i].rotation, 0, 1, 0);
+        glScalef(0.07, 0.07, 0.07);
+        glCallList(scene->staticobject_display_list_id[0]);
+        glPopMatrix();
+    }
+}
+
+void draw_space(Scene *scene)
+{
+
+    glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, scene->texture_id[2]);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glBegin(GL_QUADS);
@@ -161,11 +250,6 @@ void draw_scene(const Scene *scene)
     glEnd();
     glPopMatrix();
 
-    draw_ground(scene);
-}
-
-void draw_ground(Scene *scene)
-{
     glBindTexture(GL_TEXTURE_2D, scene->texture_id[1]);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);

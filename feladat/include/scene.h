@@ -4,7 +4,6 @@
 #include "camera.h"
 #include "texture.h"
 
-
 #include <obj/model.h>
 
 typedef struct Object
@@ -17,14 +16,30 @@ typedef struct Object
     vec3 prev_position;
 } Object;
 
+typedef struct Grass
+{
+    vec3 position;
+    float rotation;
+} Grass;
+
 typedef struct Scene
 {
     Object skeleton;
     Object trex;
     Object sign;
+    Object fenceFront;
+
+    GLuint staticobject_display_list_id[4];
+    Model grass1_model;
+    Grass grass1[100];
+
+    vec3 positions[100];
+
     Material material;
+
     GLuint texture_id[10];
     float light;
+
 } Scene;
 
 void init_scene(Scene *scene);
@@ -41,6 +56,10 @@ void init_models(Scene *scene);
 
 void init_textures(Scene *scene);
 
-void draw_ground(Scene *scene);
+void draw_space(Scene *scene);
+
+void init_lists(Scene *scene);
+
+void draw_grass(Scene *scene);
 
 #endif /* SCENE_H */
