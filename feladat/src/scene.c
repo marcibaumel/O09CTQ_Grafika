@@ -34,6 +34,10 @@ void init_scene(Scene *scene)
 
 void init_models(Scene *scene)
 {
+    load_model(&(scene->dron.model), "models/dron.obj");
+    scene->dron.speed.x = 3;
+    scene->dron.speed.y = 1;
+
     load_model(&(scene->skeleton), "models/skeleton.obj");
     load_model(&(scene->trex), "models/trex.obj");
     load_model(&(scene->sign), "models/sign2.obj");
@@ -73,13 +77,17 @@ void set_position(Scene *scene)
     }
 
     scene->skeleton.position.x = 0.0;
-    scene->skeleton.position.z = 20.0;
+    scene->skeleton.position.z = 10.0;
 
     scene->trex.position.y = -0.8;
 
     scene->fenceFront.position.z = -32.0;
 
-    scene->triceratop.position.z = -20.0;
+    scene->triceratop.position.z = -10.0;
+
+    scene->dron.position.x = 0;
+    scene->dron.position.y = 5;
+    scene->dron.position.z = 1;
 }
 
 void init_textures(Scene *scene)
@@ -87,7 +95,7 @@ void init_textures(Scene *scene)
     scene->texture_id[0] = load_texture("textures/polydesert_atlas.png");
     scene->texture_id[1] = load_texture("textures/floor.png");
     scene->texture_id[2] = load_texture("textures/skybox.jpg");
-    scene->texture_id[3] = load_texture("textures/guide.png");
+    scene->texture_id[3] = load_texture("textures/guides.png");
     scene->texture_id[4] = load_texture("textures/bone.png");
     scene->texture_id[5] = load_texture("textures/trex.jpg");
     scene->texture_id[6] = load_texture("textures/sign.jpg");
@@ -185,7 +193,7 @@ void draw_scene(const Scene *scene)
     glBindTexture(GL_TEXTURE_2D, scene->texture_id[5]);
     glTranslatef(scene->triceratop.position.x, scene->triceratop.position.y, scene->triceratop.position.z);
     glScalef(0.1f, 0.1f, 0.1f);
-    glRotatef(angle+270.0f, 0.0f, 1.0f, 0.0f);
+    glRotatef(angle + 270.0f, 0.0f, 1.0f, 0.0f);
     draw_model(&(scene->triceratop));
     glPopMatrix();
 
@@ -223,6 +231,15 @@ void draw_scene(const Scene *scene)
     glTranslatef(scene->fenceFront.position.x, scene->fenceFront.position.y, scene->fenceFront.position.z * 0 + 35);
     glBindTexture(GL_TEXTURE_2D, scene->texture_id[8]);
     draw_model(&(scene->fenceFront));
+    glPopMatrix();
+
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[7]);
+    glPushMatrix();
+    glRotatef(angle, 0.0f, 1.0f, 0.0f);
+    glTranslatef(scene->dron.position.x, scene->dron.position.y, scene->dron.position.z);
+    glScalef(0.4f, 0.4f, 0.4f);
+
+    draw_model(&(scene->dron.model));
     glPopMatrix();
 }
 

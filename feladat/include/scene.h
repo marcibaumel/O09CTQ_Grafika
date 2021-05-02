@@ -29,6 +29,7 @@ typedef struct Scene
     Object sign;
     Object fenceFront;
     Object triceratop;
+    Object dron;
 
     GLuint staticobject_display_list_id[4];
     Model grass1_model;

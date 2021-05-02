@@ -151,6 +151,7 @@ void idle()
     last_frame_time = current_time;
 
     update_camera(&camera, elapsed_time);
+    move_dron(&(scene.dron), elapsed_time);
 
     glutPostRedisplay();
 }
