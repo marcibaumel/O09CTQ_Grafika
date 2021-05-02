@@ -23,6 +23,18 @@ void display()
     {
         show_help(&scene);
     }
+    if (is_i_visible)
+    {
+        show_i(&scene);
+    }
+    if (is_o_visible)
+    {
+        show_o(&scene);
+    }
+    if (is_p_visible)
+    {
+        show_p(&scene);
+    }
 
     glutSwapBuffers();
 }
@@ -92,6 +104,37 @@ void keyboard(unsigned char key, int x, int y)
         else
         {
             is_preview_visible = TRUE;
+        }
+        break;
+
+    case 'i':
+        if (is_i_visible)
+        {
+            is_i_visible = FALSE;
+        }
+        else
+        {
+            is_i_visible = TRUE;
+        }
+        break;
+    case 'o':
+        if (is_o_visible)
+        {
+            is_o_visible = FALSE;
+        }
+        else
+        {
+            is_o_visible = TRUE;
+        }
+        break;
+    case 'p':
+        if (is_p_visible)
+        {
+            is_p_visible = FALSE;
+        }
+        else
+        {
+            is_p_visible = TRUE;
         }
         break;
     case '+':

@@ -77,9 +77,10 @@ void set_position(Scene *scene)
     }
 
     scene->skeleton.position.x = 0.0;
-    scene->skeleton.position.z = 10.0;
+    scene->skeleton.position.z = 15.0;
 
-    scene->trex.position.y = -0.8;
+    scene->trex.position.y = -80.0;
+    scene->trex.position.z = -30.0;
 
     scene->fenceFront.position.z = -32.0;
 
@@ -88,6 +89,10 @@ void set_position(Scene *scene)
     scene->dron.position.x = 0;
     scene->dron.position.y = 5;
     scene->dron.position.z = 1;
+
+    scene->sign.position.x = 0;
+    scene->sign.position.y = 0;
+    scene->sign.position.z = 0;
 }
 
 void init_textures(Scene *scene)
@@ -102,6 +107,12 @@ void init_textures(Scene *scene)
     scene->texture_id[7] = load_texture("textures/forest.jpg");
     scene->texture_id[8] = load_texture("textures/fence.jpg");
     scene->texture_id[9] = load_texture("textures/grass.jpg");
+    scene->texture_id[10] = load_texture("textures/i.jpg");
+    scene->texture_id[11] = load_texture("textures/p.jpg");
+    scene->texture_id[12] = load_texture("textures/o.jpg");
+    scene->texture_id[13] = load_texture("textures/iT.jpg");
+    scene->texture_id[14] = load_texture("textures/oT.jpg");
+    scene->texture_id[15] = load_texture("textures/pT.jpg");
 }
 
 void set_lighting(Scene *scene)
@@ -176,7 +187,8 @@ void draw_scene(const Scene *scene)
 
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, scene->texture_id[4]);
-    glTranslatef(scene->skeleton.position.x, scene->skeleton.position.y, scene->skeleton.position.z);
+    glScalef(0.5f, 0.5f, 0.5f);
+    glTranslatef(scene->skeleton.position.x, scene->skeleton.position.y, scene->skeleton.position.z + 10);
     glRotatef(angle, 0.0f, 1.0f, 0.0f);
     angle += 0.1f;
     draw_model(&(scene->skeleton));
@@ -184,8 +196,9 @@ void draw_scene(const Scene *scene)
 
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, scene->texture_id[5]);
+    glScalef(0.02f, 0.02f, 0.02f);
     glTranslatef(scene->trex.position.x, scene->trex.position.y, scene->trex.position.z);
-    glScalef(0.01f, 0.01f, 0.01f);
+    glRotatef(angle, 0.0f, 1.0f, 0.0f);
     draw_model(&(scene->trex));
     glPopMatrix();
 
@@ -197,9 +210,32 @@ void draw_scene(const Scene *scene)
     draw_model(&(scene->triceratop));
     glPopMatrix();
 
+    /*
     glPushMatrix();
     glScalef(0.03f, 0.03f, 0.03f);
     glBindTexture(GL_TEXTURE_2D, scene->texture_id[6]);
+    draw_model(&(scene->sign));
+    glPopMatrix();
+    */
+
+    glPushMatrix();
+    glScalef(0.03f, 0.03f, 0.03f);
+    glTranslatef(scene->sign.position.x - 200, scene->sign.position.y, scene->sign.position.z - 300);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[10]);
+    draw_model(&(scene->sign));
+    glPopMatrix();
+
+    glPushMatrix();
+    glScalef(0.03f, 0.03f, 0.03f);
+    glTranslatef(scene->sign.position.x - 200, scene->sign.position.y, scene->sign.position.z + 300);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[11]);
+    draw_model(&(scene->sign));
+    glPopMatrix();
+
+    glPushMatrix();
+    glScalef(0.03f, 0.03f, 0.03f);
+    glTranslatef(scene->sign.position.x - 200, scene->sign.position.y, scene->sign.position.z + 100);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[12]);
     draw_model(&(scene->sign));
     glPopMatrix();
 

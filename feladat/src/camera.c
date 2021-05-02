@@ -162,3 +162,88 @@ void show_help(struct Scene *scene)
     glEnable(GL_LIGHTING);
     glEnable(GL_DEPTH_TEST);
 }
+
+void show_i(struct Scene *scene)
+{
+
+    glDisable(GL_LIGHTING);
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_COLOR_MATERIAL);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[13]);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
+    glVertex3f(-2, 1, -3);
+    glTexCoord2f(1, 0);
+    glVertex3f(2, 1, -3);
+    glTexCoord2f(1, 1);
+    glVertex3f(2, -1, -3);
+    glTexCoord2f(0, 1);
+    glVertex3f(-2, -1, -3);
+    glEnd();
+
+    glDisable(GL_COLOR_MATERIAL);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_DEPTH_TEST);
+}
+void show_o(struct Scene *scene)
+{
+
+    glDisable(GL_LIGHTING);
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_COLOR_MATERIAL);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[14]);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
+    glVertex3f(-2, 1, -3);
+    glTexCoord2f(1, 0);
+    glVertex3f(2, 1, -3);
+    glTexCoord2f(1, 1);
+    glVertex3f(2, -1, -3);
+    glTexCoord2f(0, 1);
+    glVertex3f(-2, -1, -3);
+    glEnd();
+
+    glDisable(GL_COLOR_MATERIAL);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_DEPTH_TEST);
+}
+void show_p(struct Scene *scene)
+{
+
+    glDisable(GL_LIGHTING);
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_COLOR_MATERIAL);
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[15]);
+
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
+    
+
+    glBegin(GL_QUADS);
+    glTexCoord2f(0, 0);
+    glVertex3f(-2, 1, -3);
+    glTexCoord2f(1, 0);
+    glVertex3f(2, 1, -3);
+    glTexCoord2f(1, 1);
+    glVertex3f(2, -1, -3);
+    glTexCoord2f(0, 1);
+    glVertex3f(-2, -1, -3);
+    glEnd();
+
+    glDisable(GL_COLOR_MATERIAL);
+    glEnable(GL_LIGHTING);
+    glEnable(GL_DEPTH_TEST);
+}

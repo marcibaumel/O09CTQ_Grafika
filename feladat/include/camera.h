@@ -20,6 +20,10 @@ typedef struct Camera
  */
 int is_preview_visible;
 
+int is_i_visible;
+int is_o_visible;
+int is_p_visible;
+
 void set_camera_vertical_speed(Camera *camera, double speed);
 
 /**
@@ -53,4 +57,7 @@ void set_camera_speed(Camera *camera, double speed);
 void set_camera_side_speed(Camera *camera, double speed);
 
 void show_help(struct Scene *scene);
+void show_i(struct Scene *scene);
+void show_o(struct Scene *scene);
+void show_p(struct Scene *scene);
 #endif /* CAMERA_H */

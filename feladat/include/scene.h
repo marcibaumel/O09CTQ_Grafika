@@ -39,7 +39,7 @@ typedef struct Scene
 
     Material material;
 
-    GLuint texture_id[10];
+    GLuint texture_id[16];
     float light;
 
 } Scene;
