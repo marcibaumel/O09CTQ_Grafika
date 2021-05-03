@@ -46,9 +46,9 @@ Leírás #3 behívása: P Gomb
  <br><br><br><br>
 Futtatott álapotba így kellene kinézni:
 
- ![alt text](https://github.com/marcibaumel/O09CTQ_Grafika/blob/main/feladat/textures/guides.png "1")
+ ![alt text](https://github.com/marcibaumel/O09CTQ_Grafika/blob/main/plusz/minta1.PNG "1")
 
- ![alt text](https://github.com/marcibaumel/O09CTQ_Grafika/blob/main/feladat/textures/guides.png "2")
+ ![alt text](https://github.com/marcibaumel/O09CTQ_Grafika/blob/main/plusz/minta2.PNG "2")
  
- ![alt text](https://github.com/marcibaumel/O09CTQ_Grafika/blob/main/feladat/textures/guides.png "3")
+ ![alt text](https://github.com/marcibaumel/O09CTQ_Grafika/blob/main/plusz/minta3.PNG "3")
 
