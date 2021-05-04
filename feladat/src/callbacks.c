@@ -1,5 +1,6 @@
 #include "callbacks.h"
-
+#include "scene.h"
+#include "dronMove.h"
 #define VIEWPORT_RATIO (16.0 / 9.0)
 #define VIEWPORT_ASPECT 50.0
 
@@ -155,6 +156,24 @@ void keyboard(unsigned char key, int x, int y)
     case 'e':
         set_camera_vertical_speed(&camera, 2);
         break;
+    case 'v':
+        set_dronMove_speed(&(scene.movedron), 4);
+        break;
+    case 'b':
+        set_dronMove_speed(&(scene.movedron), -4);
+        break;
+    case 'n':
+        rotate_dronMove(&(scene.movedron), -25);
+        break;
+    case 'm':
+        rotate_dronMove(&(scene.movedron), 25);
+        break;
+    case 'k':
+        set_dronMove_scale(&(scene.movedron), 0.01);
+        break;
+    case 'l':
+        set_dronMove_scale(&(scene.movedron), -0.01);
+        break;
     }
 
     glutPostRedisplay();
@@ -178,6 +197,10 @@ void keyboard_up(unsigned char key, int x, int y)
         break;
         x = x;
         y = y;
+    case 'v':
+    case 'b':
+        set_dronMove_speed(&(scene.movedron), 0.0);
+        break;
     }
 
     glutPostRedisplay();
@@ -195,6 +218,8 @@ void idle()
 
     update_camera(&camera, elapsed_time);
     move_dron(&(scene.dron), elapsed_time);
+    move_dronMove(&(scene.movedron), elapsed_time);
+    rotate_dronMove(&(scene.movedron), 0);
 
     glutPostRedisplay();
 }

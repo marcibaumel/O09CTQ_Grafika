@@ -27,6 +27,7 @@ typedef struct Scene
     Object skeleton;
     Object trex;
     Object sign;
+    Object movedron;
     Object fenceFront;
     Object triceratop;
     Object dron;

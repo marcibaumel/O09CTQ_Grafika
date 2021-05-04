@@ -38,6 +38,11 @@ void init_models(Scene *scene)
     scene->dron.speed.x = 3;
     scene->dron.speed.y = 1;
 
+    load_model(&(scene->movedron.model), "models/dron.obj");
+    scene->movedron.scale.x = 0.2;
+    scene->movedron.scale.y = 0.2;
+    scene->movedron.scale.z = 0.2;
+
     load_model(&(scene->skeleton), "models/skeleton.obj");
     load_model(&(scene->trex), "models/trex.obj");
     load_model(&(scene->sign), "models/sign2.obj");
@@ -88,7 +93,11 @@ void set_position(Scene *scene)
 
     scene->dron.position.x = 0;
     scene->dron.position.y = 5;
-    scene->dron.position.z = 1;
+    scene->dron.position.z = 10;
+
+    scene->movedron.position.x = 0;
+    scene->movedron.position.y = 6;
+    scene->movedron.position.z = -5;
 
     scene->sign.position.x = 0;
     scene->sign.position.y = 0;
@@ -135,7 +144,7 @@ void set_lighting(Scene *scene)
     specular_light[0] = scene->light;
     specular_light[1] = scene->light;
     specular_light[2] = scene->light;
-    specular_light[3] = 1.0f;
+    specular_light[3] = 10.0f;
 
     position[0] = 0.0f;
     position[1] = 0.0f;
@@ -185,6 +194,14 @@ void draw_scene(const Scene *scene)
     draw_grass(scene);
     draw_space(scene);
 
+    glBindTexture(GL_TEXTURE_2D, scene->texture_id[3]);
+    glPushMatrix();
+    glTranslatef(scene->movedron.position.x, scene->movedron.position.y, scene->movedron.position.z);
+    glRotatef(scene->movedron.rotation.z, 0, 1, 0);
+    glScalef(scene->movedron.scale.x, scene->movedron.scale.y, scene->movedron.scale.z);
+    draw_model(&(scene->movedron.model));
+    glPopMatrix();
+
     glPushMatrix();
     glBindTexture(GL_TEXTURE_2D, scene->texture_id[4]);
     glScalef(0.5f, 0.5f, 0.5f);
@@ -209,14 +226,6 @@ void draw_scene(const Scene *scene)
     glRotatef(angle + 270.0f, 0.0f, 1.0f, 0.0f);
     draw_model(&(scene->triceratop));
     glPopMatrix();
-
-    /*
-    glPushMatrix();
-    glScalef(0.03f, 0.03f, 0.03f);
-    glBindTexture(GL_TEXTURE_2D, scene->texture_id[6]);
-    draw_model(&(scene->sign));
-    glPopMatrix();
-    */
 
     glPushMatrix();
     glScalef(0.03f, 0.03f, 0.03f);
@@ -274,8 +283,8 @@ void draw_scene(const Scene *scene)
     glRotatef(angle, 0.0f, 1.0f, 0.0f);
     glTranslatef(scene->dron.position.x, scene->dron.position.y, scene->dron.position.z);
     glScalef(0.4f, 0.4f, 0.4f);
-
     draw_model(&(scene->dron.model));
+
     glPopMatrix();
 }
 
