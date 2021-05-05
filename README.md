@@ -23,6 +23,20 @@ D Gomb  - Jobbra
 A Gomb  - Balra
 <br>
 <br><br>
+Drón mozgatás
+<br><br> 
+V Gomb  - Előre
+<br>
+B Gomb  - Hátra
+<br>
+N Gomb  - Forgatás +
+<br>
+M Gomb  - Forgatás -
+<br><br>
+K Gomb  - Drón méretének növelése
+<br>
+L Gomb  - Drón méretének csökkentése
+<br><br> 
 Guid Behívása: T Gomb 
 <br><br> 
 Extra kamera mozgatás:
@@ -43,8 +57,8 @@ Leírás #1 behívása: I Gomb
 Leírás #2 behívása: O Gomb 
 <br><br>
 Leírás #3 behívása: P Gomb 
- <br><br><br><br>
-Futtatott álapotba így kellene kinézni:
+ <br><br>
+Futtatott álapotba körülbelűl így kellene kinézni:
 
  ![alt text](https://github.com/marcibaumel/O09CTQ_Grafika/blob/main/plusz/minta1.PNG "1")
 
