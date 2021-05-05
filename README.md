@@ -1,6 +1,6 @@
 # O09CTQ_Grafika
  
- ![alt text](https://github.com/marcibaumel/O09CTQ_Grafika/blob/main/feladat/textures/guides.png "Title")
+ ![alt text](https://github.com/marcibaumel/O09CTQ_Grafika/blob/main/feladat/textures/guides2.png "Title")
  
 Feladat:
 <br><br>
