@@ -109,7 +109,7 @@ void init_textures(Scene *scene)
     scene->texture_id[0] = load_texture("textures/polydesert_atlas.png");
     scene->texture_id[1] = load_texture("textures/floor.png");
     scene->texture_id[2] = load_texture("textures/skybox.jpg");
-    scene->texture_id[3] = load_texture("textures/guides.png");
+    scene->texture_id[3] = load_texture("textures/guides2.png");
     scene->texture_id[4] = load_texture("textures/bone.png");
     scene->texture_id[5] = load_texture("textures/trex.jpg");
     scene->texture_id[6] = load_texture("textures/sign.jpg");
