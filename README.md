@@ -66,3 +66,5 @@ Futtatott álapotba körülbelűl így kellene kinézni:
  
  ![alt text](https://github.com/marcibaumel/O09CTQ_Grafika/blob/main/plusz/minta3.PNG "3")
 
+<br><br>
+<strong>Érdemjegy: 5  ||  2021.05.06.
